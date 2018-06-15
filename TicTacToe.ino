@@ -42,7 +42,7 @@ void setUpBoard(){
 
 
 void loop(){
-  int buttonChanged = getButtonPressed();
+  byte buttonChanged = getButtonPressed();
   TicTacToeCell* cellPressed = getBoardCell(buttonChanged);
   if(cellPressed->isOn()){ 
     notifyError(); // cell already taken
@@ -57,12 +57,13 @@ void loop(){
   delay(1000);
 }
 
-int getButtonPressed(){
-  while(Serial.available()<1){} //Wait for 1 byte to arrive
-  int button = (int) Serial.read();
+byte getButtonPressed(){
+  if (Serial.available() > 0) {
+  	return Serial.read();
+  }
 }
 
-TicTacToeCell* getBoardCell(int buttonChanged){
+TicTacToeCell* getBoardCell(byte buttonChanged){
   if (buttonChanged == 1) return board[0][0];
   if (buttonChanged == 2) return board[0][1];
   if (buttonChanged == 3) return board[0][2];
