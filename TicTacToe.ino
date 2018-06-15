@@ -1,21 +1,21 @@
-#define RED_00 7
-#define RED_10 6
-#define RED_20 5
-#define GREEN_00 4
-#define GREEN_10 3
-#define GREEN_20 2
-#define RED_01 13
-#define RED_11 12
-#define RED_21 11
-#define GREEN_01 10
-#define GREEN_11 9
-#define GREEN_21 8
-#define RED_02 13
-#define RED_12 12
-#define RED_22 11
-#define GREEN_02 10
-#define GREEN_12 9
-#define GREEN_22 8
+#define RED_00 11
+#define RED_10 12
+#define RED_20 13
+#define GREEN_00 8
+#define GREEN_10 9
+#define GREEN_20 10
+#define RED_01 5
+#define RED_11 6
+#define RED_21 7
+#define GREEN_01 2
+#define GREEN_11 3
+#define GREEN_21 4
+#define RED_02 A2
+#define RED_12 A1
+#define RED_22 A0
+#define GREEN_02 A5
+#define GREEN_12 A4
+#define GREEN_22 A3
 
 #include "TicTacToeCell.h"
 
@@ -45,40 +45,38 @@ void setUpBoard(){
 
 
 void loop(){
-  /*
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
+  for(int j = 0; j < 3; j++){
+    for(int i = 0; i < 3; i++){
       board[i][j]->green();
       delay(1000);
       board[i][j]->red();
       delay(1000);
     }
   }
-  */
 
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
-      int buttonState = digitalRead(buttons[i][j]);
-      if (buttonState == HIGH) {
-
-        if(board[i][j]->isOn()){ 
-          notifyError(); // cell already taken
-        }
-        else{
-          turnOn(i, j);
-           if(checkWin(currentPlayer)){
-            setUpBoard();
-           }
-        //digitalWrite(ledPin, HIGH);
-  
-          togglePlayer();
-        }
-        
-        break;
-      }
-    }
-  }
-  delay(3000);
+//  for(int i = 0; i < 3; i++){
+//    for(int j = 0; j < 3; j++){
+//      int buttonState = digitalRead(buttons[i][j]);
+//      if (buttonState == HIGH) {
+//
+//        if(board[i][j]->isOn()){ 
+//          notifyError(); // cell already taken
+//        }
+//        else{
+//          turnOn(i, j);
+//           if(checkWin(currentPlayer)){
+//            setUpBoard();
+//           }
+//        //digitalWrite(ledPin, HIGH);
+//  
+//          togglePlayer();
+//        }
+//        
+//        break;
+//      }
+//    }
+//  }
+//  delay(3000);
 }
 
 int getButton(){
