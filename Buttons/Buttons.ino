@@ -32,11 +32,11 @@ void loop() {
       int old_value = old_values[i][j];
       bool buttonPressed = buttonState != old_value;
       ++button;
-      if (buttonPressed) {
+      if (buttonPressed) old_values[i][j] = buttonState;
+      if (buttonPressed && buttonState == HIGH) {
         delay(10);
         byte byteButton = (byte) button;
         Serial.write(byteButton);
-        Serial.println(byteButton);
         old_values[i][j] = buttonState;
         break;
       }
