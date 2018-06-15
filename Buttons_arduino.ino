@@ -33,12 +33,12 @@ void loop() {
       bool buttonPressed = buttonState != old_value;
       ++button;
       if (buttonPressed) {
+        delay(10);
         byte byteButton = (byte) button;
         Serial.write(byteButton);
-        delay(10);
+        old_value = buttonState;
         break;
       }
     }
   }
 }
-

@@ -20,9 +20,6 @@
 #include "TicTacToeCell.h"
 
 TicTacToeCell* board[3][3];
-
-int buttons[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-
 int currentPlayer = 0;
 
 void setup(){
@@ -45,57 +42,48 @@ void setUpBoard(){
 
 
 void loop(){
-  /*
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
-      board[i][j]->green();
-      delay(1000);
-      board[i][j]->red();
-      delay(1000);
-    }
+  int buttonChanged = getButtonPressed();
+  TicTacToeCell* cellPressed = getBoardCell(buttonChanged);
+  if(cellPressed->isOn()){ 
+    notifyError(); // cell already taken
   }
-  */
-
-  for(int i = 0; i < 3; i++){
-    for(int j = 0; j < 3; j++){
-      int buttonState = digitalRead(buttons[i][j]);
-      if (buttonState == HIGH) {
-
-        if(board[i][j]->isOn()){ 
-          notifyError(); // cell already taken
-        }
-        else{
-          turnOn(i, j);
-           if(checkWin(currentPlayer)){
-            setUpBoard();
-           }
-        //digitalWrite(ledPin, HIGH);
-  
-          togglePlayer();
-        }
-        
-        break;
-      }
-    }
+  else{
+    turnOn(cellPressed);
+     if(checkWin(currentPlayer)){
+      setUpBoard();
+     }
+    togglePlayer();
   }
-  delay(3000);
+  delay(1000);
 }
 
-int getButton(){
-  while(Serial.available()<1){} //Wait for 2 bytes to arrive
+int getButtonPressed(){
+  while(Serial.available()<1){} //Wait for 1 byte to arrive
   int button = (int) Serial.read();
+}
+
+TicTacToeCell* getBoardCell(int buttonChanged){
+  if (buttonChanged == 1) return board[0][0];
+  if (buttonChanged == 2) return board[0][1];
+  if (buttonChanged == 3) return board[0][2];
+  if (buttonChanged == 4) return board[1][0];
+  if (buttonChanged == 5) return board[1][1];
+  if (buttonChanged == 6) return board[1][2];
+  if (buttonChanged == 7) return board[2][0];
+  if (buttonChanged == 8) return board[2][1];
+  if (buttonChanged == 9) return board[2][2];
 }
 
 void notifyError(){
   // cell already colored
 }
 
-void turnOn(int i, int j){
+void turnOn(TicTacToeCell* cellPressed){
   if(currentPlayer == 0){
-    board[i][j]->turnOn(currentPlayer, 0);
+    cellPressed->turnOn(currentPlayer, 0);
   }
   else{
-    board[i][j]->turnOn(currentPlayer, 1);
+    cellPressed->turnOn(currentPlayer, 1);
   }
 }
 
@@ -157,4 +145,3 @@ int winAnimation(int playerNumber) {
   }
   delay(5000);
 }
-
