@@ -73,6 +73,11 @@ byte getButtonPressed(){
   if(!Serial.available()) return 0;
   
   byte data = Serial.read();
+  delay(1000);
+  if(Serial.read() != data){
+    reset();
+    return 0;
+  }
   if(data < 0 || data > 9) return 0;
 
   return data;
