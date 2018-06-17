@@ -24,6 +24,14 @@ void setupValues(){
   }
 }
 
+void resetOldValues(){
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      old_values[i][j] = 0;
+    }
+  }
+}
+
 void loop() {
   int button = 0;
   byte writeValue = 0;
@@ -46,8 +54,11 @@ void loop() {
       }
     }
   }
-  if(count > 1){
+  if(count == 1){
     Serial.write(writeValue);
     old_values[finalI][finalJ] = HIGH;
+  } else if(count > 1){
+    Serial.write(10);
+    resetOldValues();
   }
 }

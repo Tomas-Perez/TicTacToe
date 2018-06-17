@@ -75,7 +75,7 @@ byte getButtonPressed(){
   byte data = Serial.read();
   if(data == 10) {
     reset();
-  }
+  } 
   if(data < 0 || data > 9) return 0;
 
   return data;
