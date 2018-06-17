@@ -26,6 +26,10 @@ void setupValues(){
 
 void loop() {
   int button = 0;
+  byte writeValue = 0;
+  int count = 0;
+  int finalI = 0;
+  int finalJ = 0;
   for(int i = 0; i < 3; i++){
     for(int j = 0; j < 3; j++){
       int buttonState = digitalRead(buttons[i][j]);
@@ -35,11 +39,15 @@ void loop() {
       if (buttonPressed) old_values[i][j] = buttonState;
       if (buttonPressed && buttonState == HIGH) {
         delay(10);
-        byte byteButton = (byte) button;
-        Serial.write(byteButton);
-        old_values[i][j] = buttonState;
-        break;
+        writeValue = (byte) button;
+        finalI = i;
+        finalJ = j;
+        count++;
       }
     }
+  }
+  if(count > 1){
+    Serial.write(writeValue);
+    old_values[finalI][finalJ] = HIGH;
   }
 }
