@@ -1,30 +1,32 @@
-#define RED_00 11
-#define RED_10 12
-#define RED_20 13
-#define GREEN_00 8
-#define GREEN_10 9
-#define GREEN_20 10
-#define RED_01 5
+#define RED_02 11
+#define RED_01 12
+#define RED_00 13
+#define GREEN_02 8
+#define GREEN_01 9
+#define GREEN_00 10
+#define RED_12 5
 #define RED_11 6
-#define RED_21 7
-#define GREEN_01 2
+#define RED_10 7
+#define GREEN_12 2
 #define GREEN_11 3
-#define GREEN_21 4
-#define RED_02 A2
-#define RED_12 A1
+#define GREEN_10 4
 #define RED_22 A0
-#define GREEN_02 A5
-#define GREEN_12 A4
+#define RED_21 A1
+#define RED_20 A2
 #define GREEN_22 A3
+#define GREEN_21 A4
+#define GREEN_20 A5
 
 #include "TicTacToeCell.h"
 
 TicTacToeCell* board[3][3];
-int currentPlayer = 0;
+int currentPlayer;
 
 void setup(){
   Serial.begin(9600);
+  pinMode(0, INPUT);
   setUpBoard();
+  currentPlayer = 0;
   Serial.flush();
 }
 
@@ -40,27 +42,40 @@ void setUpBoard(){
   board[2][2] = new TicTacToeCell(RED_22, GREEN_22);
 }
 
+void reset(){
+  currentPlayer = 0;
+  for(int i = 0; i < 3; i++){
+    for(int j = 0; j < 3; j++){
+      board[i][j]->reset();
+    }
+  }
+}
+
 
 void loop(){
   byte buttonChanged = getButtonPressed();
-  TicTacToeCell* cellPressed = getBoardCell(buttonChanged);
-  if(cellPressed->isOn()){ 
-    notifyError(); // cell already taken
+  if(buttonChanged){
+    TicTacToeCell* cellPressed = getBoardCell(buttonChanged);
+    if(cellPressed->isOn()){ 
+      notifyError(); // cell already taken
+    }
+    else{
+      turnOn(cellPressed);
+      if(checkWin(currentPlayer)){
+        reset();
+      }
+      else togglePlayer();
+    }
   }
-  else{
-    turnOn(cellPressed);
-     if(checkWin(currentPlayer)){
-      setUpBoard();
-     }
-    togglePlayer();
-  }
-  delay(1000);
 }
 
 byte getButtonPressed(){
-  if (Serial.available() > 0) {
-  	return Serial.read();
-  }
+  if(!Serial.available()) return 0;
+  
+  byte data = Serial.read();
+  if(data < 0 || data > 9) return 0;
+
+  return data;
 }
 
 TicTacToeCell* getBoardCell(byte buttonChanged){
@@ -146,3 +161,4 @@ int winAnimation(int playerNumber) {
   }
   delay(5000);
 }
+

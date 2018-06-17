@@ -12,6 +12,7 @@ class TicTacToeCell
     boolean isOn();
     void turnOn(int player, int color);// 0 = green, 1 = red
     int getPlayer();
+    void reset();
   private:
     boolean _isOn; 
     int _player;
@@ -20,3 +21,4 @@ class TicTacToeCell
 };
 
 #endif
+

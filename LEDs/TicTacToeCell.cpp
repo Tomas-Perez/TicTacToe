@@ -6,8 +6,10 @@ TicTacToeCell::TicTacToeCell(int red_pin, int green_pin)
   _isOn = false;
   _player = -1;
   pinMode(red_pin, OUTPUT);
+  digitalWrite(red_pin, LOW);
   _red_pin = red_pin;
   pinMode(green_pin, OUTPUT);
+  digitalWrite(green_pin, LOW);
   _green_pin = green_pin;
 }
 
@@ -32,6 +34,13 @@ boolean TicTacToeCell::isOn()
   return _isOn;
 }
 
+void TicTacToeCell::reset(){
+  _isOn = false;
+  _player = -1;
+  digitalWrite(_red_pin, LOW);
+  digitalWrite(_green_pin, LOW);
+}
+
 void TicTacToeCell::turnOn(int player, int color)
 {
   _isOn = true;
@@ -42,4 +51,5 @@ void TicTacToeCell::turnOn(int player, int color)
     red();
   }
 }
+
 
