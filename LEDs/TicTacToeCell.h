@@ -9,6 +9,8 @@ class TicTacToeCell
     TicTacToeCell(int red_pin, int green_pin);
     void green();
     void red();
+    void off();
+    void turnOff();
     boolean isOn();
     void turnOn(int player, int color);// 0 = green, 1 = red
     int getPlayer();

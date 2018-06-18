@@ -25,6 +25,12 @@ void TicTacToeCell::green()
   digitalWrite(_green_pin, HIGH);
 }
 
+void TicTacToeCell::off()
+{
+  digitalWrite(_red_pin, LOW);
+  digitalWrite(_green_pin, LOW);
+}
+
 int TicTacToeCell::getPlayer(){
   return _player;
 }
@@ -52,4 +58,8 @@ void TicTacToeCell::turnOn(int player, int color)
   }
 }
 
-
+void TicTacToeCell::turnOff()
+{
+  _isOn = false;
+  off();
+}

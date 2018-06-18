@@ -156,7 +156,15 @@ boolean checkWin(int playerNumber) {
 }
 
 int winAnimation(int playerNumber) {
-  int color = 0;
+  for (int i = 0; i < 3; ++i){
+  	turnAllOn(playerNumber);
+  	delay(500);
+  	turnAllOff();
+  }
+}
+
+void turnAllOn(int playerNumber){
+	int color = 0;
   if(playerNumber == 1){
     color = 1;
   }
@@ -164,7 +172,14 @@ int winAnimation(int playerNumber) {
     for(int j = 0; j < 3; j++){
       board[i][j]->turnOn(playerNumber, color);
     }
-  }
-  delay(5000);
+	}
+}
+
+void turnAllOff(){
+	for(int i = 0; i < 3; i++){
+  	for(int j = 0; j < 3; j++){
+      board[i][j]->turnOff();
+    }
+	}
 }
 
