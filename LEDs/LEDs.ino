@@ -21,6 +21,7 @@
 
 TicTacToeCell* board[3][3];
 int currentPlayer;
+int cellsPressed;
 
 void setup(){
   Serial.begin(9600);
@@ -40,6 +41,7 @@ void setUpBoard(){
   board[2][0] = new TicTacToeCell(RED_20, GREEN_20);
   board[2][1] = new TicTacToeCell(RED_21, GREEN_21);
   board[2][2] = new TicTacToeCell(RED_22, GREEN_22);
+  cellsPressed = 0;
 }
 
 void reset(){
@@ -49,6 +51,7 @@ void reset(){
       board[i][j]->reset();
     }
   }
+  cellsPressed = 0;
 }
 
 
@@ -129,6 +132,11 @@ void togglePlayer(){
 
 
 boolean checkWin(int playerNumber) {
+	++cellsPressed;
+	if (cellsPressed == 9){
+		tieAnimation();
+		return true;
+	}
   if(board[0][0]->getPlayer() == playerNumber && board[1][0]->getPlayer() == playerNumber && board[2][0]->getPlayer() == playerNumber){
     winAnimation(playerNumber);
     return true;
@@ -190,5 +198,14 @@ void turnAllOff(){
       board[i][j]->turnOff();
     }
 	}
+}
+
+void tieAnimation(){
+	for(int i = 0; i < 3; i++){
+  	for(int j = 0; j < 3; j++){
+      blink(board[i][j]);
+    }
+	}
+	delay(250);
 }
 
