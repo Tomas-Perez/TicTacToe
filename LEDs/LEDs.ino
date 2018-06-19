@@ -57,7 +57,7 @@ void loop(){
   if(buttonChanged){
     TicTacToeCell* cellPressed = getBoardCell(buttonChanged);
     if(cellPressed->isOn()){ 
-      notifyError(); // cell already taken
+      notifyError(cellPressed); // cell already taken
     }
     else{
       turnOn(cellPressed);
@@ -96,8 +96,17 @@ TicTacToeCell* getBoardCell(byte buttonChanged){
   if (buttonChanged == 9) return board[2][2];
 }
 
-void notifyError(){
-  // cell already colored
+void notifyError(TicTacToeCell* cellPressed){
+  for (int i = 0; i < 3; ++i){
+  	blink(cellPressed);
+  }
+}
+
+void blink(TicTacToeCell* cellPressed){
+	cellPressed->turnOff();
+  delay(250);
+  cellPressed->turnOn(cellPressed->getPlayer(), cellPressed->getPlayer());
+  delay(250);
 }
 
 void turnOn(TicTacToeCell* cellPressed){
